@@ -386,7 +386,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[11] =
     {   0,
-        0,    0,    7,    5,    3,    4,    2,    1,    2,    0
+        0,    0,    7,    5,    4,    3,    2,    1,    2,    0
     } ;
 
 static yyconst YY_CHAR yy_ec[256] =
@@ -751,40 +751,40 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 10 "LexSpice.l"
-{ yyval=atoi(yytext);
-	printf("\n LEX : Found %c\n", yyval);
+{ yylval=yytext[0];
+	printf("\n LEX : Found %d\n", yylval);
        	return ELEMENT;
       }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 15 "LexSpice.l"
-{yyval=atoi(yytext);
-	printf("\n LEX : Found %d\n", yyval);
+{yylval=atoi(yytext);
+	printf("\n LEX : Found %d\n", yylval);
 	return INTEGER;
        }
 	YY_BREAK
 case 3:
+/* rule 3 can match eol */
 YY_RULE_SETUP
-#line 20 "LexSpice.l"
-;
-	YY_BREAK
-case 4:
-/* rule 4 can match eol */
-YY_RULE_SETUP
-#line 22 "LexSpice.l"
+#line 21 "LexSpice.l"
 {printf("\n LEX : Found a newline\n");
       return *yytext;
      }
 	YY_BREAK
+case 4:
+YY_RULE_SETUP
+#line 25 "LexSpice.l"
+;
+	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "LexSpice.l"
-{ yyerror("--------Parser has found something mysterious : %s--------", *yytext)};
+#line 27 "LexSpice.l"
+{ yyerror("\n--------Parser has found something mysterious-------\n");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 28 "LexSpice.l"
+#line 29 "LexSpice.l"
 ECHO;
 	YY_BREAK
 #line 791 "lex.yy.c"
@@ -1788,7 +1788,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 28 "LexSpice.l"
+#line 29 "LexSpice.l"
 
 
 

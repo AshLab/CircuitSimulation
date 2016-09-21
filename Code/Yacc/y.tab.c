@@ -64,13 +64,13 @@
 /* Copy the first part of user declarations.  */
 #line 3 "YaccSPICE.y" /* yacc.c:339  */
 
-	#define yydebug 1
+	#define YYDEBUG 1
 	#include<stdio.h>
 	
 	void yyerror(char *);
 	int yylex(void);
 	int node1, node2, elementNumber;
-        float elementValue;
+        int elementValue;
 	char element;
 	
 	extern FILE *yyin;
@@ -376,7 +376,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   7
+#define YYLAST   8
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  6
@@ -385,7 +385,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  10
+#define YYNSTATES  11
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -431,7 +431,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    19,    22,    23
+       0,    18,    18,    19,    20,    23
 };
 #endif
 
@@ -468,7 +468,8 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,     0,    -4,    -2,    -3,     2,    -4,     3,     4,    -4
+      -4,     0,    -4,    -2,    -4,    -3,     3,    -4,     4,     5,
+      -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -476,7 +477,8 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     5,     1,     0,     0,     0,     2,     0,     0,     4
+       4,     0,     1,     0,     3,     0,     0,     2,     0,     0,
+       5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -488,7 +490,7 @@ static const yytype_int8 yypgoto[] =
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     4
+      -1,     1,     5
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -496,31 +498,32 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       2,     5,     6,     0,     3,     7,     8,     9
+       2,     6,     7,     0,     3,     4,     8,     9,    10
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     3,     5,    -1,     4,     3,     3,     3
+       0,     3,     5,    -1,     4,     5,     3,     3,     3
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     7,     0,     4,     8,     3,     5,     3,     3,     3
+       0,     7,     0,     4,     5,     8,     3,     5,     3,     3,
+       3
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     6,     7,     7,     8,     8
+       0,     6,     7,     7,     7,     8
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     0,     5,     0
+       0,     2,     3,     2,     0,     5
 };
 
 
@@ -1199,17 +1202,17 @@ yyreduce:
         case 2:
 #line 18 "YaccSPICE.y" /* yacc.c:1646  */
     {printf("element =%c \n elementNumber=%d \n node1=%d \n node2=%d \n elementValue=%d\n", element, elementNumber, node1, node2, elementValue);}
-#line 1203 "y.tab.c" /* yacc.c:1646  */
+#line 1206 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 4:
-#line 22 "YaccSPICE.y" /* yacc.c:1646  */
-    {element=(yyvsp[-4]); elementNumber=(yyvsp[-3]); node1=(yyvsp[-2]); node2=(yyvsp[-1]); elementValue=(yyvsp[0])}
-#line 1209 "y.tab.c" /* yacc.c:1646  */
+  case 5:
+#line 23 "YaccSPICE.y" /* yacc.c:1646  */
+    {element=(yyvsp[-4]); elementNumber=(yyvsp[-3]); node1=(yyvsp[-2]); node2=(yyvsp[-1]); elementValue=(yyvsp[0]);}
+#line 1212 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1213 "y.tab.c" /* yacc.c:1646  */
+#line 1216 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1437,7 +1440,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 25 "YaccSPICE.y" /* yacc.c:1906  */
+#line 27 "YaccSPICE.y" /* yacc.c:1906  */
 
 
 void yyerror(char *error)
@@ -1446,9 +1449,11 @@ void yyerror(char *error)
 	printf("\n\n An error has occured while parsing the SPICE file \n\n\n %s", error);
 }
 
-void main(void)
+int main(int argc, char *argv[])
 {
-	
+		
+	//yydebug=atoi(argv[1][0]);
+	yydebug=0;
 	yyin=fopen("cir.txt","r");
 	
 	do
