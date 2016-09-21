@@ -19,7 +19,7 @@ program: program branch '\n' {printf("element =%c \n elementNumber=%d \n node1=%
 	 |
  	 ;
 
-branch:  ELEMENT INTEGER INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4; elementValue=$5};
+branch:  ELEMENT INTEGER INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4; elementValue=$5;}
 	 |;
 
 %%
@@ -30,7 +30,7 @@ void yyerror(char *error)
 	printf("\n\n An error has occured while parsing the SPICE file \n\n\n %s", error);
 }
 
-void main(void)
+int main(void)
 {
 	
 	yyin=fopen("cir.txt","r");
