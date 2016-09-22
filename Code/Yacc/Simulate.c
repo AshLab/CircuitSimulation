@@ -20,29 +20,34 @@ void main(void)
 	int YaccParse(char*);
 	int ExCurrentNode();
 	int ExVoltageNode();
+	void FindSolution(float**,float*,float*,int);
 	
 
 	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult;
 	float G=0;
 	float **nodalMatrix; 
-	int *nodalValues, *nodalVariables;
+	float *nodalValues, *solution; 
+	int *nodalVariables;
+	
 	
 
 	parseResult=YaccParse("cir.txt");
 	
 	tempNode=parsedNode;
 	
-	/*while(tempNode!=NULL)
+	while(tempNode!=NULL)
 	{
 	printf("\n%d %d %d %d %c\n", tempNode->node1,tempNode->node2,tempNode->elementNumber,tempNode->elementValue,tempNode->element);
 
 		tempNode=tempNode->link;
-	}*/
+	}
 
 	
 	totalNodes=ExVoltageNode();
 	
 	tempvoltageNode=vNode;
+
+	
 
 	while(tempvoltageNode!=NULL)
 	{
@@ -52,6 +57,9 @@ void main(void)
 	
 	totalVoltageSource=ExCurrentNode();
 
+	nodalElements=totalNodes+totalVoltageSource;
+	printf("\nTotal :%d",nodalElements);
+
 	tempcurNode=cNode;
 
 	while(tempcurNode!=NULL)
@@ -60,8 +68,9 @@ void main(void)
 		tempcurNode=tempcurNode->link;
 	}
 
-	nodalElements=totalNodes+totalVoltageSource;
-	printf("\nTotal :%d",nodalElements);
+	
+
+	//system(sleep(1));
 
 	nodalMatrix= (float **) malloc(nodalElements*sizeof(float*));
 	
@@ -70,13 +79,15 @@ void main(void)
 		nodalMatrix[i]=(float *) malloc(nodalElements*sizeof(float));	
 	}
 
-	nodalValues=(int *) malloc(nodalElements*sizeof(int));
+	nodalValues=(float *) malloc(nodalElements*sizeof(float));
+	solution=(float *) malloc(nodalElements*sizeof(float));
 
 	
 
 	for(i=0;i<nodalElements;i++)
 	{	
 		nodalValues[i]=0;
+		solution[i]=0;
 
 		for(j=0;j<nodalElements;j++)
 		{
@@ -117,7 +128,7 @@ void main(void)
 		{
 			i=SearchNodes(tempNode->node1);
 			j=SearchNodes(tempNode->node2);
-			k=SearchVoltageSource(tempNode->elementNumber)+nodalElements-1;
+			k=SearchVoltageSource(tempNode->elementNumber)+totalNodes;
 			
 			
 			
@@ -134,7 +145,7 @@ void main(void)
 				nodalMatrix[k][j]=-1;
 			}
 
-			nodalValues[k]=tempNode->elementValue;
+			nodalValues[k]=(float)tempNode->elementValue;
 		}
 
 	
@@ -156,8 +167,44 @@ void main(void)
 
 	for(j=0;j<nodalElements;j++)
 	{
-		printf("%d\t",nodalValues[j]);
+		printf("%f\t",nodalValues[j]);
 	}
+
+
+	FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
+
+	
+	tempvoltageNode=vNode;
+	tempcurNode=cNode;
+	
+	printf("\n\n\n Simulation Results\n\n--------------------------------------------------\n");
+	for(i=0;i<nodalElements;i++)
+	{
+		if(i<totalNodes)
+		{		
+			printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
+			tempvoltageNode=tempvoltageNode->link;
+		}
+
+		else
+		{
+			printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
+			tempcurNode=tempcurNode->link;
+		}
+		
+					
+	}
+
+	printf("\n\n--------------------------------------------------\n");
+
+	free(cNode);
+	free(vNode);
+	free(parsedNode);
+	free(nodalMatrix);
+	free(nodalValues);
+	free(solution);
+	
+
 }
 
 int SearchNodes(int node)

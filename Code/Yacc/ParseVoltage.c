@@ -61,7 +61,7 @@ int ExVoltageNode(void)
 		
 	}
 	
-	printf("\nVoltage : %d",i);
+	//printf("\nVoltage : %d",i);
 
 	return i;
 
