@@ -45,6 +45,7 @@ int ExVoltageNode(void)
 			vNode=(struct voltageNode*) malloc(sizeof(struct voltageNode));
 			vNode->nodeNo=tempNode->node1;
 			vNode->link=tempvoltageNode;
+			i++;
 		}
 			
 		if(end2!=0)
@@ -53,12 +54,16 @@ int ExVoltageNode(void)
 			vNode=(struct voltageNode*) malloc(sizeof(struct voltageNode));
 			vNode->nodeNo=tempNode->node2;
 			vNode->link=tempvoltageNode;
+			i++;
 		}	
 
 		tempNode=tempNode->link;
 		
 	}
+	
+	printf("\nVoltage : %d",i);
 
-	return 1;
+	return i;
+
 
 }	

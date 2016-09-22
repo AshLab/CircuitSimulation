@@ -23,12 +23,13 @@ int ExCurrentNode(void)
 			cNode->elementName=tempNode->elementNumber;
 			cNode->link=tempcurNode;
 			tempcurNode=cNode;
+			i++;
 		}
 
 		tempNode=tempNode->link;
 		
 	}
 
-	return 1;
+	return i;
 
 }	
