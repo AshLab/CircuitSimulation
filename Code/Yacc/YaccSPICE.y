@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 {
 		
 	//yydebug=atoi(argv[1][0]);
-	yydebug=0;
+	yydebug=argc-1;
 	yyin=fopen("cir.txt","r");
 	
 	do

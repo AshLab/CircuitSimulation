@@ -8,21 +8,21 @@
 %%
 
 [A-Z] { yylval=yytext[0];
-	printf("\n LEX : Found %d\n", yylval);
+	//printf("\n LEX : Found %d\n", yylval);
        	return ELEMENT;
       }
 
 [0-9]+ {yylval=atoi(yytext);
-	printf("\n LEX : Found %d\n", yylval);
+	//printf("\n LEX : Found %d\n", yylval);
 	return INTEGER;
        }
 
 
-[\n] {printf("\n LEX : Found a newline\n");
+[\n] {//printf("\n LEX : Found a newline\n");
       return *yytext;
      }
 
-[\t] ;
+[ \t] ;
 
 . { yyerror("\n--------Parser has found something mysterious-------\n");}
 

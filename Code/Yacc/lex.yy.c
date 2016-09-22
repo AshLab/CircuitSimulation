@@ -394,7 +394,7 @@ static yyconst YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    2,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    4,    4,    4,
         4,    4,    4,    4,    4,    4,    4,    1,    1,    1,
         1,    1,    1,    1,    5,    5,    5,    5,    5,    5,
@@ -752,7 +752,7 @@ case 1:
 YY_RULE_SETUP
 #line 10 "LexSpice.l"
 { yylval=yytext[0];
-	printf("\n LEX : Found %d\n", yylval);
+	//printf("\n LEX : Found %d\n", yylval);
        	return ELEMENT;
       }
 	YY_BREAK
@@ -760,7 +760,7 @@ case 2:
 YY_RULE_SETUP
 #line 15 "LexSpice.l"
 {yylval=atoi(yytext);
-	printf("\n LEX : Found %d\n", yylval);
+	//printf("\n LEX : Found %d\n", yylval);
 	return INTEGER;
        }
 	YY_BREAK
@@ -768,7 +768,7 @@ case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 21 "LexSpice.l"
-{printf("\n LEX : Found a newline\n");
+{//printf("\n LEX : Found a newline\n");
       return *yytext;
      }
 	YY_BREAK
