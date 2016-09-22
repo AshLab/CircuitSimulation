@@ -66,16 +66,23 @@
 
 	#define YYDEBUG 1
 	#include<stdio.h>
+	#include"Simulate.h"
 	
 	void yyerror(char *);
 	int yylex(void);
+	int YaccParse(char *);
+
 	int node1, node2, elementNumber;
         int elementValue;
 	char element;
+	struct elementData *tempAddress=NULL;
+
 	
 	extern FILE *yyin;
+	
+	
 
-#line 79 "y.tab.c" /* yacc.c:339  */
+#line 86 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -134,7 +141,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 138 "y.tab.c" /* yacc.c:358  */
+#line 145 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -431,7 +438,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    19,    20,    23
+       0,    25,    25,    37,    38,    41
 };
 #endif
 
@@ -1200,19 +1207,30 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 18 "YaccSPICE.y" /* yacc.c:1646  */
-    {printf("element =%c \n elementNumber=%d \n node1=%d \n node2=%d \n elementValue=%d\n", element, elementNumber, node1, node2, elementValue);}
-#line 1206 "y.tab.c" /* yacc.c:1646  */
+#line 25 "YaccSPICE.y" /* yacc.c:1646  */
+    {	
+				
+				parsedNode=(struct elementData*)(malloc(sizeof(struct elementData)));
+				parsedNode->node1=node1;
+				parsedNode->node2=node2;
+				parsedNode->elementNumber=elementNumber;
+				parsedNode->elementValue=elementValue;
+				parsedNode->element=element;
+				
+				parsedNode->link=tempAddress;
+				tempAddress=parsedNode;
+				}
+#line 1224 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 23 "YaccSPICE.y" /* yacc.c:1646  */
+#line 41 "YaccSPICE.y" /* yacc.c:1646  */
     {element=(yyvsp[-4]); elementNumber=(yyvsp[-3]); node1=(yyvsp[-2]); node2=(yyvsp[-1]); elementValue=(yyvsp[0]);}
-#line 1212 "y.tab.c" /* yacc.c:1646  */
+#line 1230 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1216 "y.tab.c" /* yacc.c:1646  */
+#line 1234 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1440,8 +1458,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 27 "YaccSPICE.y" /* yacc.c:1906  */
-
+#line 45 "YaccSPICE.y" /* yacc.c:1906  */
 
 void yyerror(char *error)
 {
@@ -1449,12 +1466,12 @@ void yyerror(char *error)
 	printf("\n\n An error has occured while parsing the SPICE file \n\n\n %s", error);
 }
 
-int main(int argc, char *argv[])
+int YaccParse(char *fileName)  
 {
 		
 	//yydebug=atoi(argv[1][0]);
-	yydebug=argc-1;
-	yyin=fopen("cir.txt","r");
+	//yydebug=argc-1;
+	yyin=fopen(fileName,"r");
 	
 	do
 	{	
@@ -1462,7 +1479,9 @@ int main(int argc, char *argv[])
 	}
 	while(!feof(yyin));
 
-	return 0;
+	fclose(yyin);
+
+	return 1;
 }
 
 	
