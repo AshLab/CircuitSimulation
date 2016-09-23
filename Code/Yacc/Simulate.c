@@ -148,6 +148,24 @@ void main(void)
 			nodalValues[k]=(float)tempNode->elementValue;
 		}
 
+		if(tempNode->element=='I')
+		{
+			i=SearchNodes(tempNode->node1);
+			j=SearchNodes(tempNode->node2);
+			
+			if(i!=-1)
+			{
+				nodalValues[i]=	(float)tempNode->elementValue;
+			}
+
+			
+			if(j!=-1)
+			{
+				nodalValues[j]=	-(float)tempNode->elementValue;
+			}	
+
+		}
+
 	
 	tempNode=tempNode->link;
 	}
