@@ -35,18 +35,38 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 			
 			m=a[j][i];
 			n=a[i][i];
-			for(k=i;k<dim+1;k++)
-			{
+			while(n== 0.0)
+				{
+					n=a[i+1][i];
+					for(k=i;k<dim+1;k++)
+					{
 
-				a[j][k]=(m*a[i][k])-(n*a[j][k]);
-				//printf("\n%d", a[j][k]);
-				//getchar();
+					a[j][k]=(a[i][k])+(a[j][k]);
+					a[i][k]=(a[j][k])-(a[i][k]);
+					//printf("\n%d", a[j][k]);
+					//getchar();
 				
+					}
+				}
+
+			//if(n== 0.0)
+			//n=a[i+1][i]
+			//a[i][i]=1.0;
+			if(m!= 0.0)
+			{
+				for(k=i;k<dim+1;k++)
+				{
+
+					a[j][k]=(m*a[i][k])-(n*a[j][k]);
+					//printf("\n%d", a[j][k]);
+					//getchar();
+				
+				}
 			}
 		}
 	}
 
-	/*for(i=0;i<dim;i++)
+	for(i=0;i<dim;i++)
 	{
 		for(j=0;j<dim+1;j++)
 		{
@@ -55,11 +75,13 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 		}
 
 		printf("\n");
-	}*/
+	}
 
 	for(i=dim-1;i>=0;i--)
 	{	
 		D=0;
+	
+		//sol[i]=(a[i][t]-D)/(a[i][j]);
 		for(j=dim-1,t=j+1;j>i;j--)
 		{
 
@@ -67,6 +89,7 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 		}
 		
 		//printf("\nD : %f",D);
+		printf("Sol \n: %f\n\n",a[i][j]);
 		sol[i]=(a[i][t]-D)/(a[i][j]);
 		//printf("Sol \n: %f",sol[i]);
 		//getchar();
