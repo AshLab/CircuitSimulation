@@ -23,3 +23,13 @@ struct currentNode
 };
 
 extern struct currentNode *cNode;
+
+
+struct runMode
+{
+	char modeType,element;
+	float startValue, stopValue, stepValue;
+	int elementNumber;
+};
+
+extern struct runMode mode;

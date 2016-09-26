@@ -1,4 +1,4 @@
-%token INTEGER ELEMENT
+%token INTEGER ELEMENT OP
 
 %{
 	#define YYDEBUG 1
@@ -12,6 +12,9 @@
 	int node1, node2, elementNumber;
         int elementValue;
 	char element;
+	char runMode;
+	float startVal, stopVal, stepVal;
+
 	struct elementData *tempAddress=NULL;
 
 	
@@ -33,12 +36,30 @@ program: program branch '\n' {
 				
 				parsedNode->link=tempAddress;
 				tempAddress=parsedNode;
-				}
+			    }
+
+	 |program dc '\n' {	
+				mode.modeType=runMode;
+			     	mode.startValue=startVal;
+				mode.stopValue=stopVal;
+				mode.stepValue=stepVal;
+				mode.element=element;
+				mode.elementNumber=elementNumber;
+			    }
+				
+		
 	 |program '\n'
 	 |
  	 ;
 
 branch:  ELEMENT INTEGER INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4; elementValue=$5;};
+
+dc: dc INTEGER INTEGER INTEGER ELEMENT INTEGER {startVal=$2;stopVal=$3;stepVal=$4; element=$5; elementNumber=$6;}	 
+    |OP {runMode=$1;}
+    ;
+
+
+
 
 
 

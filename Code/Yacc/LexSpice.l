@@ -17,6 +17,11 @@
 	return INTEGER;
        }
 
+[\.][a-z]+ { yylval=yytext[1];
+	   return OP;
+	 }
+
+^[%].* ;
 
 [\n] {//printf("\n LEX : Found a newline\n");
       return *yytext;

@@ -7,6 +7,7 @@
 struct elementData *parsedNode=NULL;
 struct voltageNode *vNode=NULL;
 struct currentNode *cNode=NULL;
+struct runMode mode;
 
 int SearchNodes(int);
 int SearchVoltageSource(int);
@@ -21,6 +22,7 @@ void main(void)
 	int ExCurrentNode();
 	int ExVoltageNode();
 	void FindSolution(float**,float*,float*,int);
+	void FindSolutionDC(float**, float*, float*, int, int);
 	
 
 	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult;
@@ -33,7 +35,10 @@ void main(void)
 
 	parseResult=YaccParse("cir.txt");
 	
+		
 	tempNode=parsedNode;
+	printf("\n\n----------------PARSED DATA--------------------------------------------------");
+	printf("\n%c %f %f %f %c %d\n\n\n",mode.modeType,mode.startValue,mode.stopValue,mode.stepValue,mode.element,mode.elementNumber);
 	
 	while(tempNode!=NULL)
 	{
@@ -41,7 +46,7 @@ void main(void)
 
 		tempNode=tempNode->link;
 	}
-
+	printf("\n\n----------------PARSED DATA--------------------------------------------------");
 	
 	totalNodes=ExVoltageNode();
 	
@@ -170,7 +175,7 @@ void main(void)
 	tempNode=tempNode->link;
 	}
 
-
+	printf("\n\n----------------NODAL MATRIX--------------------------------------------------");
 	for(i=0;i<nodalElements;i++)
 	{	
 		printf("\n");
@@ -179,41 +184,49 @@ void main(void)
 		{
 			printf("%f\t",nodalMatrix[i][j]);
 		}
+		printf("%f\t",nodalValues[i]);
 	}
-
-	printf("\n \n\n");
-
-	for(j=0;j<nodalElements;j++)
-	{
-		printf("%f\t",nodalValues[j]);
-	}
+	printf("\n\n----------------NODAL MATRIX--------------------------------------------------");
 
 
-	FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
+
+
+	if(mode.modeType=='o')
+	{	
+		FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
 
 	
-	tempvoltageNode=vNode;
-	tempcurNode=cNode;
+		tempvoltageNode=vNode;
+		tempcurNode=cNode;
 	
-	printf("\n\n\n Simulation Results\n\n--------------------------------------------------\n");
-	for(i=0;i<nodalElements;i++)
-	{
-		if(i<totalNodes)
-		{		
-			printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
-			tempvoltageNode=tempvoltageNode->link;
-		}
-
-		else
+		printf("\n\n----------------SIMULATION RESULTS--------------------------------------------------");
+		for(i=0;i<nodalElements;i++)
 		{
-			printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
-			tempcurNode=tempcurNode->link;
-		}
+			if(i<totalNodes)
+			{		
+				printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
+				tempvoltageNode=tempvoltageNode->link;
+			}
+
+			else
+			{
+				printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
+				tempcurNode=tempcurNode->link;
+			}
 		
 					
+		}
+
+		printf("\n\n----------------SIMULATION RESULTS--------------------------------------------------");
 	}
 
-	printf("\n\n--------------------------------------------------\n");
+	if(mode.modeType=='d')
+	{
+
+		parseResult=SearchVoltageSource(mode.elementNumber)+totalNodes;
+		printf("\n\nparse Result : %d\n\n",parseResult);
+		FindSolutionDC(nodalMatrix,nodalValues,solution,nodalElements,parseResult);
+	}
 
 	free(cNode);
 	free(vNode);

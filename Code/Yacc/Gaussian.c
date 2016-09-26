@@ -65,6 +65,7 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 			}
 		}
 	}
+	printf("\n\n------------------------GAUSSIAN MATRIX--------------------\n\n");
 
 	for(i=0;i<dim;i++)
 	{
@@ -76,6 +77,7 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 
 		printf("\n");
 	}
+	printf("\n\n------------------------GAUSSIAN MATRIX--------------------\n\n");
 
 	for(i=dim-1;i>=0;i--)
 	{	
@@ -89,7 +91,7 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 		}
 		
 		//printf("\nD : %f",D);
-		printf("Sol \n: %f\n\n",a[i][j]);
+		//printf("Sol \n: %f\n\n",a[i][j]);
 		sol[i]=(a[i][t]-D)/(a[i][j]);
 		//printf("Sol \n: %f",sol[i]);
 		//getchar();
