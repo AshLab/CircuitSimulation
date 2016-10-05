@@ -47,13 +47,15 @@ extern int yydebug;
   {
     INTEGER = 258,
     ELEMENT = 259,
-    OP = 260
+    OP = 260,
+    PLOT = 261
   };
 #endif
 /* Tokens.  */
 #define INTEGER 258
 #define ELEMENT 259
 #define OP 260
+#define PLOT 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

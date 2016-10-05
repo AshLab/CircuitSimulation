@@ -7,7 +7,9 @@
 struct elementData *parsedNode=NULL;
 struct voltageNode *vNode=NULL;
 struct currentNode *cNode=NULL;
+struct plotNode *plotInfo=NULL;
 struct runMode mode;
+int plotCount=0;
 
 int SearchNodes(int);
 int SearchVoltageSource(int);
@@ -17,6 +19,8 @@ void main(void)
 	struct elementData *tempNode;	
 	struct voltageNode *tempvoltageNode;
 	struct currentNode *tempcurNode;
+	struct plotNode *tempplotAdd;
+	
 	
 	int YaccParse(char*);
 	int ExCurrentNode();
@@ -72,8 +76,24 @@ void main(void)
 		printf("\nC:%d", tempcurNode->elementName);
 		tempcurNode=tempcurNode->link;
 	}
-
 	
+	//Mapping the Plot Number
+	printf("\n\n----------------PLOT NUMBER--------------------------------------------------");
+	
+	tempplotAdd=plotInfo;
+
+	while(tempplotAdd!=NULL)
+	{
+		tempplotAdd->colNo=SearchNodes(tempplotAdd->nodeNo);
+
+		printf("\n%d \t %d",tempplotAdd->nodeNo,tempplotAdd->colNo);
+
+		tempplotAdd=tempplotAdd->link;
+
+		
+	}
+		
+	printf("\n\n----------------PLOT NUMBER--------------------------------------------------");
 
 	//system(sleep(1));
 
@@ -234,6 +254,7 @@ void main(void)
 	free(nodalMatrix);
 	free(nodalValues);
 	free(solution);
+	free(plotInfo);
 	
 
 }

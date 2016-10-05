@@ -775,38 +775,48 @@ case 3:
 YY_RULE_SETUP
 #line 20 "LexSpice.l"
 { yylval=yytext[1];
-	   return OP;
+	     if(yylval=='p')
+	     {
+		printf("\n Found PLOT");		
+		return PLOT;
+	     }
+
+	     else
+	     {
+ 		printf("\n Found OP");		
+        	return OP;
+	     }
 	 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "LexSpice.l"
+#line 34 "LexSpice.l"
 ;
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 26 "LexSpice.l"
+#line 36 "LexSpice.l"
 {//printf("\n LEX : Found a newline\n");
       return *yytext;
      }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 30 "LexSpice.l"
+#line 40 "LexSpice.l"
 ;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "LexSpice.l"
+#line 42 "LexSpice.l"
 { yyerror("\n--------Parser has found something mysterious-------\n");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "LexSpice.l"
+#line 44 "LexSpice.l"
 ECHO;
 	YY_BREAK
-#line 810 "lex.yy.c"
+#line 820 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1810,7 +1820,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 34 "LexSpice.l"
+#line 44 "LexSpice.l"
 
 
 

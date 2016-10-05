@@ -1,12 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+
 #include"Simulate.h"
+#include"gnuplot_i.h"
 
 void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 {
 	float a[dim][dim+3],D,m,n,temp,val;
+	double *plotX, *plotY;
 	//float sol[3];
-	int i,j,k,t,l;
+	int i,j,k,t,l,pointCount=0;
+	char title[]="Test",label1[5],label[5];
+	
+	gnuplot_ctrl *h1;
 	
 	for(i=0;i<dim;i++)
 	{
@@ -103,8 +110,12 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 		printf("\n");
 	}
 	printf("\n\n------------------------GAUSSIAN MATRIX--------------------");
+
+	pointCount=((float)mode.stopValue-mode.startValue)/((float)mode.stepValue);
+	plotX=(double*)malloc(pointCount*sizeof(double));
+	plotY=(double*)malloc(pointCount*sizeof(double));
 	
-	for(val=mode.startValue;val<mode.stopValue;val=val+mode.stepValue)
+	for(k=0,val=mode.startValue;val<mode.stopValue;val=val+mode.stepValue,k++)
 	{
 		
 		printf("\n\n\n");
@@ -126,20 +137,63 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 			a[i][t]=(a[i][t+1])+(val*a[i][t+2]);
 	
 			sol[i]=(a[i][t]-D)/(a[i][j]);
+			
+			if(plotInfo->colNo==i)
+			{
+				plotY[k]=sol[i];
+			}
+			
 			//printf("Sol \n: %f",sol[i]);
 			//getchar();
 		}
 
 		//printf("\nThe Solutions are :\n");
+
+		plotX[k]=val;
 	
 		for(i=0;i<dim;i++)
 		{
 		
 			printf("\n%f",sol[i]);
 		}
+
+		printf("\nX: %f \t Y: %f\n", plotX[k],plotY[k]);
+
+		
 	}
+	
+
+	h1 = gnuplot_init();
+	gnuplot_resetplot(h1);
+	if ( h1 == NULL )
+  	{
+	    printf ( "\n" );
+	    printf ( "EXAMPLE - Fatal error!\n" );
+	    printf ( "  GNUPLOT is not available in your path.\n" );
+	    //exit ( 1 );
+  	}
+	gnuplot_setstyle(h1, "lines");
+
+	sprintf(label, "V_%d",mode.elementNumber);	
+
+	gnuplot_set_xlabel (h1, label);
+	
+	sprintf(label1, "V_%d",plotInfo->nodeNo);	
+
 
 	
+	gnuplot_set_ylabel(h1,label1);
+	gnuplot_plot1d_var2v(h1, plotX, plotY, k, "Test Plots");
+	//gnuplot_plot_equation(h1, "sin(x)", "sin(x)");
+	printf("\nLength : %d",k);
+
+		
+	scanf("%d",&k);
+
+	free(plotX);
+	free(plotY);
+	
+
 }
 	
 

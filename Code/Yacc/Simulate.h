@@ -33,3 +33,13 @@ struct runMode
 };
 
 extern struct runMode mode;
+
+struct plotNode
+{
+	int nodeNo;
+	int colNo;
+	struct plotNode *link;
+};
+
+extern struct plotNode *plotInfo;
+extern int plotCount;

@@ -1,4 +1,4 @@
-%token INTEGER ELEMENT OP
+%token INTEGER ELEMENT OP PLOT
 
 %{
 	#define YYDEBUG 1
@@ -16,9 +16,11 @@
 	float startVal, stopVal, stepVal;
 
 	struct elementData *tempAddress=NULL;
+	struct plotNode *tempplotAdd=NULL;
 
 	
 	extern FILE *yyin;
+	
 	
 	
 %}
@@ -46,6 +48,7 @@ program: program branch '\n' {
 				mode.element=element;
 				mode.elementNumber=elementNumber;
 			    }
+	 |program plotvar '\n' {printf("\n\nParsed node : %d",plotInfo->nodeNo);}
 				
 		
 	 |program '\n'
@@ -58,6 +61,13 @@ dc: dc INTEGER INTEGER INTEGER ELEMENT INTEGER {startVal=$2;stopVal=$3;stepVal=$
     |OP {runMode=$1;}
     ;
 
+plotvar: plotvar INTEGER {plotInfo=(struct plotNode*)malloc(sizeof(struct plotNode));
+			  plotInfo->nodeNo=$2;
+			  plotInfo->link=tempplotAdd;
+			  plotCount++;
+			  tempplotAdd=plotInfo;}
+	|PLOT
+	; 
 
 
 

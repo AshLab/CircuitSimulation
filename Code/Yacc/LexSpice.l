@@ -18,7 +18,17 @@
        }
 
 [\.][a-z]+ { yylval=yytext[1];
-	   return OP;
+	     if(yylval=='p')
+	     {
+		printf("\n Found PLOT");		
+		return PLOT;
+	     }
+
+	     else
+	     {
+ 		printf("\n Found OP");		
+        	return OP;
+	     }
 	 }
 
 ^[%].* ;
