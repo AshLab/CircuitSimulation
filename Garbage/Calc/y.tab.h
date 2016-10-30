@@ -46,28 +46,26 @@ extern int yydebug;
   enum yytokentype
   {
     INTEGER = 258,
-    ELEMENT = 259,
-    OP = 260,
-    PLOT = 261
+    VARIABLE = 259
   };
 #endif
 /* Tokens.  */
 #define INTEGER 258
-#define ELEMENT 259
-#define OP 260
-#define PLOT 261
+#define VARIABLE 259
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 2 "YaccSPICE.y" /* yacc.c:1909  */
+#line 1 "calcyac.y" /* yacc.c:1909  */
 
-	float fVal;
-	char elem;
+	float iValue;
+	char index;
+	nodeType *nPtr;
+	
 
-#line 71 "y.tab.h" /* yacc.c:1909  */
+#line 69 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

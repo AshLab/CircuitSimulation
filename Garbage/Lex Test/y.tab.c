@@ -98,29 +98,26 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INTEGER = 258,
-    ELEMENT = 259,
-    OP = 260,
-    PLOT = 261
+    FLOAT = 258,
+    VARIABLE = 259
   };
 #endif
 /* Tokens.  */
-#define INTEGER 258
-#define ELEMENT 259
-#define OP 260
-#define PLOT 261
+#define FLOAT 258
+#define VARIABLE 259
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 2 "YaccSPICE.y" /* yacc.c:355  */
+#line 1 "calcyac.y" /* yacc.c:355  */
 
-	float fVal;
-	char elem;
+	float iValue;
+	char index;
+	
 
-#line 124 "y.tab.c" /* yacc.c:355  */
+#line 121 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -136,31 +133,18 @@ int yyparse (void);
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
-#line 12 "YaccSPICE.y" /* yacc.c:358  */
+#line 10 "calcyac.y" /* yacc.c:358  */
 
+	#define YYDEBUG 1
 	#include<stdio.h>
-	#include"Simulate.h"
-	
+
 	void yyerror(char *);
 	int yylex(void);
-	int YaccParse(char *);
-
-	int node1, node2, elementNumber;
-        float elementValue;
-	char element;
-	char runMode;
-	float startVal, stopVal, stepVal;
-
-	struct elementData *tempAddress=NULL;
-	struct plotNode *tempplotAdd=NULL;
-
-	
+	int sym[26];
 	extern FILE *yyin;
-	
-	
-	
 
-#line 164 "y.tab.c" /* yacc.c:358  */
+
+#line 148 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -400,23 +384,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   5
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  8
+#define YYNTOKENS  6
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  4
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  23
+#define YYNSTATES  6
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   261
+#define YYMAXUTOK   259
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -426,7 +410,7 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       7,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       5,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -450,16 +434,14 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    38,    38,    51,    59,    62,    63,    66,    68,    69,
-      72,    77
+       0,    23,    23,    24,    25
 };
 #endif
 
@@ -468,8 +450,8 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "INTEGER", "ELEMENT", "OP", "PLOT",
-  "'\\n'", "$accept", "program", "branch", "dc", "plotvar", YY_NULLPTR
+  "$end", "error", "$undefined", "FLOAT", "VARIABLE", "'\\n'", "$accept",
+  "expr", YY_NULLPTR
 };
 #endif
 
@@ -478,14 +460,14 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,    10
+       0,   256,   257,   258,   259,    10
 };
 # endif
 
-#define YYPACT_NINF -6
+#define YYPACT_NINF -3
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-6)))
+  (!!((Yystate) == (-3)))
 
 #define YYTABLE_NINF -1
 
@@ -496,9 +478,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -6,     0,    -6,    -2,    -6,    -6,    -6,    -5,     5,     6,
-       7,    -6,     8,    -6,    -6,    -6,    11,    12,    13,    -1,
-      -6,    14,    -6
+      -2,    -3,    -3,     0,    -3,    -3
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -506,21 +486,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       6,     0,     1,     0,     9,    11,     5,     0,     0,     0,
-       0,     2,     0,     3,    10,     4,     0,     0,     0,     0,
-       7,     0,     8
+       0,     3,     4,     0,     1,     2
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -6,    -6,    -6
+      -3,    -3
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     7,     8,     9
+      -1,     3
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -528,37 +506,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       2,    10,    11,    21,     3,     4,     5,     6,    12,    14,
-      16,    17,    13,    15,    18,    19,    20,    22
+       4,     1,     2,     0,     0,     5
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-       0,     3,     7,     4,     4,     5,     6,     7,     3,     3,
-       3,     3,     7,     7,     3,     3,     3,     3
+       0,     3,     4,    -1,    -1,     5
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     9,     0,     4,     5,     6,     7,    10,    11,    12,
-       3,     7,     3,     7,     3,     7,     3,     3,     3,     3,
-       3,     4,     3
+       0,     3,     4,     7,     0,     5
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     8,     9,     9,     9,     9,     9,    10,    11,    11,
-      12,    12
+       0,     6,     7,     7,     7
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     3,     3,     2,     0,     5,     6,     1,
-       2,     1
+       0,     2,     2,     1,     1
 };
 
 
@@ -1234,72 +1206,20 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-#line 38 "YaccSPICE.y" /* yacc.c:1646  */
-    {	
-				
-				parsedNode=(struct elementData*)(malloc(sizeof(struct elementData)));
-				parsedNode->node1=node1;
-				parsedNode->node2=node2;
-				parsedNode->elementNumber=elementNumber;
-				parsedNode->elementValue=elementValue;
-				parsedNode->element=element;
-				
-				parsedNode->link=tempAddress;
-				tempAddress=parsedNode;
-			    }
-#line 1252 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 3:
-#line 51 "YaccSPICE.y" /* yacc.c:1646  */
-    {	
-				mode.modeType=runMode;
-			     	mode.startValue=startVal;
-				mode.stopValue=stopVal;
-				mode.stepValue=stepVal;
-				mode.element=element;
-				mode.elementNumber=elementNumber;
-			    }
-#line 1265 "y.tab.c" /* yacc.c:1646  */
+        case 3:
+#line 24 "calcyac.y" /* yacc.c:1646  */
+    {printf("\nFloat:%f",(yyvsp[0].iValue));}
+#line 1213 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 59 "YaccSPICE.y" /* yacc.c:1646  */
-    {printf("\n\nParsed node : %d",plotInfo->nodeNo);}
-#line 1271 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 7:
-#line 66 "YaccSPICE.y" /* yacc.c:1646  */
-    {element=(yyvsp[-4].elem); elementNumber=(yyvsp[-3].fVal); node1=(yyvsp[-2].fVal); node2=(yyvsp[-1].fVal); elementValue=(yyvsp[0].fVal);}
-#line 1277 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 8:
-#line 68 "YaccSPICE.y" /* yacc.c:1646  */
-    {startVal=(yyvsp[-4].fVal);stopVal=(yyvsp[-3].fVal);stepVal=(yyvsp[-2].fVal); element=(yyvsp[-1].elem); elementNumber=(yyvsp[0].fVal);}
-#line 1283 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 9:
-#line 69 "YaccSPICE.y" /* yacc.c:1646  */
-    {runMode=(yyvsp[0].elem);}
-#line 1289 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 72 "YaccSPICE.y" /* yacc.c:1646  */
-    {plotInfo=(struct plotNode*)malloc(sizeof(struct plotNode));
-			  plotInfo->nodeNo=(yyvsp[0].fVal);
-			  plotInfo->link=tempplotAdd;
-			  plotCount++;
-			  tempplotAdd=plotInfo;}
-#line 1299 "y.tab.c" /* yacc.c:1646  */
+#line 25 "calcyac.y" /* yacc.c:1646  */
+    {printf("\nVariable:%c",(yyvsp[0].index);}
+#line 1219 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1303 "y.tab.c" /* yacc.c:1646  */
+#line 1223 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1527,20 +1447,20 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 84 "YaccSPICE.y" /* yacc.c:1906  */
+#line 27 "calcyac.y" /* yacc.c:1906  */
 
-void yyerror(char *error)
+
+void yyerror(char *s)
 {
-
-	printf("\n\n An error has occured while parsing the SPICE file \n\n\n %s", error);
+	fprintf(stderr,"Error:%s\n",s);
+        
 }
 
-int YaccParse(char *fileName)  
+int main(void)
 {
-		
-	//yydebug=atoi(argv[1][0]);
-	//yydebug=argc-1;
-	yyin=fopen(fileName,"r");
+	
+	//yydebug=1;
+	yyin=fopen("calc.txt","r");
 	
 	do
 	{	
@@ -1548,12 +1468,7 @@ int YaccParse(char *fileName)
 	}
 	while(!feof(yyin));
 
-	fclose(yyin);
-
-	return 1;
+	return 0;
 }
 
-	
 
-
- 

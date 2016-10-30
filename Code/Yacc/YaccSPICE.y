@@ -1,7 +1,15 @@
-%token INTEGER ELEMENT OP PLOT
+%union
+{
+	float fVal;
+	char elem;
+};
+
+%token <fVal> INTEGER
+%token <elem> ELEMENT
+%token <elem> OP
+%token <elem> PLOT
 
 %{
-	#define YYDEBUG 1
 	#include<stdio.h>
 	#include"Simulate.h"
 	
@@ -10,7 +18,7 @@
 	int YaccParse(char *);
 
 	int node1, node2, elementNumber;
-        int elementValue;
+        float elementValue;
 	char element;
 	char runMode;
 	float startVal, stopVal, stepVal;

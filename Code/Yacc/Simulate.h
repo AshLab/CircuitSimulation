@@ -1,7 +1,7 @@
 struct elementData 
 {
 	int node1, node2, elementNumber;
-        int elementValue;
+        float elementValue;
 	char element;
 	struct elementData *link;
 };

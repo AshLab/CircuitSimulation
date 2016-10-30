@@ -112,6 +112,7 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 	printf("\n\n------------------------GAUSSIAN MATRIX--------------------");
 
 	pointCount=((float)mode.stopValue-mode.startValue)/((float)mode.stepValue);
+	printf("Point COunt :%d\n\n", pointCount);
 	plotX=(double*)malloc(pointCount*sizeof(double));
 	plotY=(double*)malloc(pointCount*sizeof(double));
 	

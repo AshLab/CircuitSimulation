@@ -46,7 +46,7 @@ void main(void)
 	
 	while(tempNode!=NULL)
 	{
-	printf("\n%d %d %d %d %c\n", tempNode->node1,tempNode->node2,tempNode->elementNumber,tempNode->elementValue,tempNode->element);
+	printf("\n%d %d %d %f %c\n", tempNode->node1,tempNode->node2,tempNode->elementNumber,tempNode->elementValue,tempNode->element);
 
 		tempNode=tempNode->link;
 	}

@@ -7,18 +7,22 @@
 
 %%
 
-[A-Z] { yylval=yytext[0];
+[A-Z] { yylval.elem=yytext[0];
 	//printf("\n LEX : Found %d\n", yylval);
        	return ELEMENT;
       }
 
-[0-9]+ {yylval=atoi(yytext);
+[0-9]+[\.][0-9]+ {yylval.fVal=atof(yytext);
+		  return INTEGER;
+		 }
+
+[0-9]+ {yylval.fVal=atof(yytext);
 	//printf("\n LEX : Found %d\n", yylval);
 	return INTEGER;
        }
 
-[\.][a-z]+ { yylval=yytext[1];
-	     if(yylval=='p')
+[\.][a-z]+ { yylval.elem=yytext[1];
+	     if(yylval.elem=='p')
 	     {
 		printf("\n Found PLOT");		
 		return PLOT;
