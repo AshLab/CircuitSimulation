@@ -9,7 +9,10 @@ struct voltageNode *vNode=NULL;
 struct currentNode *cNode=NULL;
 struct plotNode *plotInfo=NULL;
 struct runMode mode;
+struct nonLinear nonLinearData;
+
 int plotCount=0;
+int nonLinear=0;
 
 int SearchNodes(int);
 int SearchVoltageSource(int);
@@ -27,6 +30,7 @@ void main(void)
 	int ExVoltageNode();
 	void FindSolution(float**,float*,float*,int);
 	void FindSolutionDC(float**, float*, float*, int, int);
+	void FindSolutionNonLinear(float**, float*, float*, int, int**, int);
 	
 
 	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult;
@@ -34,6 +38,9 @@ void main(void)
 	float **nodalMatrix; 
 	float *nodalValues, *solution; 
 	int *nodalVariables;
+	int **nonLinearIndex;
+	int nonLinearCount=0;
+	
 	
 	
 
@@ -122,78 +129,199 @@ void main(void)
 	
 	tempNode=parsedNode;
 	
-	while(tempNode!=NULL)
-	{
-		if(tempNode->element=='R')
-		{
-			i=SearchNodes(tempNode->node1);
-			j=SearchNodes(tempNode->node2);
-			
-			G=(float)1/tempNode->elementValue;
-			
-			if(i!=-1)
-			{
-				nodalMatrix[i][i]=G+nodalMatrix[i][i];
-			}
 	
-			if(j!=-1)
+	if(nonLinearData.nonLinear==0)
+	{	
+		while(tempNode!=NULL)
+		{
+			if(tempNode->element=='R')
 			{
-				nodalMatrix[j][j]=G+nodalMatrix[j][j];
-			}
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+			
+				G=(float)1/tempNode->elementValue;
+			
+				if(i!=-1)
+				{
+					nodalMatrix[i][i]=G+nodalMatrix[i][i];
+				}
+	
+				if(j!=-1)
+				{
+					nodalMatrix[j][j]=G+nodalMatrix[j][j];
+				}
 
-			if(i!=-1 && j!=-1)
-			{
-				nodalMatrix[i][j]=nodalMatrix[i][j]-G;
-				nodalMatrix[j][i]=nodalMatrix[j][i]-G;
+				if(i!=-1 && j!=-1)
+				{
+					nodalMatrix[i][j]=nodalMatrix[i][j]-G;
+					nodalMatrix[j][i]=nodalMatrix[j][i]-G;
 		
+				}
 			}
-		}
 
-		if(tempNode->element=='V')
-		{
-			i=SearchNodes(tempNode->node1);
-			j=SearchNodes(tempNode->node2);
-			k=SearchVoltageSource(tempNode->elementNumber)+totalNodes;
-			
-			
-			
-			if(i!=-1)
+			if(tempNode->element=='V')
 			{
-				nodalMatrix[i][k]=1;
-				nodalMatrix[k][i]=1;
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+				k=SearchVoltageSource(tempNode->elementNumber)+totalNodes;
+			
+			
+			
+				if(i!=-1)
+				{
+					nodalMatrix[i][k]=1;
+					nodalMatrix[k][i]=1;
 				
-			}
+				}
 	
-			if(j!=-1)
-			{
-				nodalMatrix[j][k]=-1;
-				nodalMatrix[k][j]=-1;
+				if(j!=-1)
+				{
+					nodalMatrix[j][k]=-1;
+					nodalMatrix[k][j]=-1;
+				}
+
+				nodalValues[k]=(float)tempNode->elementValue;
 			}
 
-			nodalValues[k]=(float)tempNode->elementValue;
-		}
+			if(tempNode->element=='I')
+			{
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+			
+				if(i!=-1)
+				{
+					nodalValues[i]=	(float)tempNode->elementValue;
+				}
 
-		if(tempNode->element=='I')
+			
+				if(j!=-1)
+				{
+					nodalValues[j]=	-(float)tempNode->elementValue;
+				}	
+
+			}
+
+	
+		tempNode=tempNode->link;
+		}
+	}	
+
+	else
+	{	
+
+		nonLinearIndex= (int **) malloc(nodalElements*sizeof(int*));
+	
+		for(i=0;i<nonLinearData.count;i++)
 		{
-			i=SearchNodes(tempNode->node1);
-			j=SearchNodes(tempNode->node2);
-			
-			if(i!=-1)
+			nonLinearIndex[i]=(int *) malloc(2*sizeof(int));	
+		}
+
+		while(tempNode!=NULL)
+		{
+			if(tempNode->element=='R')
 			{
-				nodalValues[i]=	(float)tempNode->elementValue;
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+			
+				G=(float)1/tempNode->elementValue;
+			
+				if(i!=-1)
+				{
+					nodalMatrix[i][i]=G+nodalMatrix[i][i];
+				}
+	
+				if(j!=-1)
+				{
+					nodalMatrix[j][j]=G+nodalMatrix[j][j];
+				}
+
+				if(i!=-1 && j!=-1)
+				{
+					nodalMatrix[i][j]=nodalMatrix[i][j]-G;
+					nodalMatrix[j][i]=nodalMatrix[j][i]-G;
+		
+				}
+			}
+
+			if(tempNode->element=='V')
+			{
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+				k=SearchVoltageSource(tempNode->elementNumber)+totalNodes;
+			
+			
+			
+				if(i!=-1)
+				{
+					nodalMatrix[i][k]=1;
+					nodalMatrix[k][i]=1;
+				
+				}
+	
+				if(j!=-1)
+				{
+					nodalMatrix[j][k]=-1;
+					nodalMatrix[k][j]=-1;
+				}
+
+				nodalValues[k]=(float)tempNode->elementValue;
+			}
+
+			if(tempNode->element=='I')
+			{
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+			
+				if(i!=-1)
+				{
+					nodalValues[i]=	(float)tempNode->elementValue;
+				}
+
+			
+				if(j!=-1)
+				{
+					nodalValues[j]=	-(float)tempNode->elementValue;
+				}	
+
+			}
+
+			if(tempNode->element=='D')
+			{
+				i=SearchNodes(tempNode->node1);
+				j=SearchNodes(tempNode->node2);
+			
+				//G=(float)1/tempNode->elementValue;
+			
+					nonLinearIndex[nonLinearCount][0]=i;
+					nonLinearIndex[nonLinearCount][1]=j;
+				nonLinearCount++;
 			}
 
 			
-			if(j!=-1)
-			{
-				nodalValues[j]=	-(float)tempNode->elementValue;
-			}	
-
-		}
 
 	
-	tempNode=tempNode->link;
+		tempNode=tempNode->link;
+		}
+		
+		
+	printf("\n\n----------------DIODE ELEMENTS--------------------------------------------------");
+	for(i=0;i<nonLinearCount;i++)
+	{	
+		printf("\n");
+
+		for(j=0;j<2;j++)
+		{
+			printf("%d\t",nonLinearIndex[i][j]);
+		}
+
 	}
+	printf("\n\n----------------DIODE ELEMENTS--------------------------------------------------");
+
+
+	
+	}	
+
+
 
 	printf("\n\n----------------NODAL MATRIX--------------------------------------------------");
 	for(i=0;i<nodalElements;i++)
@@ -213,7 +341,16 @@ void main(void)
 
 	if(mode.modeType=='o')
 	{	
-		FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
+		if(nonLinearData.nonLinear==0)
+		{		
+			FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
+		}
+
+		else
+		{
+		
+			FindSolutionNonLinear(nodalMatrix,nodalValues,solution,nodalElements,nonLinearIndex,nonLinearData.count);
+		}
 
 	
 		tempvoltageNode=vNode;

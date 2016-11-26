@@ -43,3 +43,13 @@ struct plotNode
 
 extern struct plotNode *plotInfo;
 extern int plotCount;
+
+struct nonLinear
+{
+	int nonLinear;
+	int count;
+};
+
+extern struct nonLinear nonLinearData;
+
+	

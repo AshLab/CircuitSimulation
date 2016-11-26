@@ -409,7 +409,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  12
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  23
 
@@ -458,8 +458,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    38,    38,    51,    59,    62,    63,    66,    68,    69,
-      72,    77
+       0,    38,    38,    58,    66,    69,    70,    73,    74,    77,
+      78,    81,    86
 };
 #endif
 
@@ -506,9 +506,9 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       6,     0,     1,     0,     9,    11,     5,     0,     0,     0,
-       0,     2,     0,     3,    10,     4,     0,     0,     0,     0,
-       7,     0,     8
+       6,     0,     1,     0,    10,    12,     5,     0,     0,     0,
+       0,     2,     0,     3,    11,     4,     0,     0,     8,     0,
+       7,     0,     9
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -550,15 +550,15 @@ static const yytype_uint8 yystos[] =
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     8,     9,     9,     9,     9,     9,    10,    11,    11,
-      12,    12
+       0,     8,     9,     9,     9,     9,     9,    10,    10,    11,
+      11,    12,    12
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     3,     3,     2,     0,     5,     6,     1,
-       2,     1
+       0,     2,     3,     3,     3,     2,     0,     5,     4,     6,
+       1,     2,     1
 };
 
 
@@ -1245,14 +1245,21 @@ yyreduce:
 				parsedNode->elementValue=elementValue;
 				parsedNode->element=element;
 				
+				if(element=='d'||element=='D')
+				{
+					nonLinearData.nonLinear=1;
+					nonLinearData.count=nonLinearData.count+1;
+				}
+				
+				
 				parsedNode->link=tempAddress;
 				tempAddress=parsedNode;
 			    }
-#line 1252 "y.tab.c" /* yacc.c:1646  */
+#line 1259 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 51 "YaccSPICE.y" /* yacc.c:1646  */
+#line 58 "YaccSPICE.y" /* yacc.c:1646  */
     {	
 				mode.modeType=runMode;
 			     	mode.startValue=startVal;
@@ -1261,45 +1268,51 @@ yyreduce:
 				mode.element=element;
 				mode.elementNumber=elementNumber;
 			    }
-#line 1265 "y.tab.c" /* yacc.c:1646  */
+#line 1272 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 59 "YaccSPICE.y" /* yacc.c:1646  */
+#line 66 "YaccSPICE.y" /* yacc.c:1646  */
     {printf("\n\nParsed node : %d",plotInfo->nodeNo);}
-#line 1271 "y.tab.c" /* yacc.c:1646  */
+#line 1278 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 66 "YaccSPICE.y" /* yacc.c:1646  */
+#line 73 "YaccSPICE.y" /* yacc.c:1646  */
     {element=(yyvsp[-4].elem); elementNumber=(yyvsp[-3].fVal); node1=(yyvsp[-2].fVal); node2=(yyvsp[-1].fVal); elementValue=(yyvsp[0].fVal);}
-#line 1277 "y.tab.c" /* yacc.c:1646  */
+#line 1284 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 68 "YaccSPICE.y" /* yacc.c:1646  */
-    {startVal=(yyvsp[-4].fVal);stopVal=(yyvsp[-3].fVal);stepVal=(yyvsp[-2].fVal); element=(yyvsp[-1].elem); elementNumber=(yyvsp[0].fVal);}
-#line 1283 "y.tab.c" /* yacc.c:1646  */
+#line 74 "YaccSPICE.y" /* yacc.c:1646  */
+    {element=(yyvsp[-3].elem); elementNumber=(yyvsp[-2].fVal); node1=(yyvsp[-1].fVal); node2=(yyvsp[0].fVal);elementValue=0;}
+#line 1290 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 69 "YaccSPICE.y" /* yacc.c:1646  */
-    {runMode=(yyvsp[0].elem);}
-#line 1289 "y.tab.c" /* yacc.c:1646  */
+#line 77 "YaccSPICE.y" /* yacc.c:1646  */
+    {startVal=(yyvsp[-4].fVal);stopVal=(yyvsp[-3].fVal);stepVal=(yyvsp[-2].fVal); element=(yyvsp[-1].elem); elementNumber=(yyvsp[0].fVal);}
+#line 1296 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 72 "YaccSPICE.y" /* yacc.c:1646  */
+#line 78 "YaccSPICE.y" /* yacc.c:1646  */
+    {runMode=(yyvsp[0].elem);}
+#line 1302 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 11:
+#line 81 "YaccSPICE.y" /* yacc.c:1646  */
     {plotInfo=(struct plotNode*)malloc(sizeof(struct plotNode));
 			  plotInfo->nodeNo=(yyvsp[0].fVal);
 			  plotInfo->link=tempplotAdd;
 			  plotCount++;
 			  tempplotAdd=plotInfo;}
-#line 1299 "y.tab.c" /* yacc.c:1646  */
+#line 1312 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1303 "y.tab.c" /* yacc.c:1646  */
+#line 1316 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1527,7 +1540,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 84 "YaccSPICE.y" /* yacc.c:1906  */
+#line 93 "YaccSPICE.y" /* yacc.c:1906  */
 
 void yyerror(char *error)
 {

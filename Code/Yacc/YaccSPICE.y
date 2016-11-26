@@ -44,6 +44,13 @@ program: program branch '\n' {
 				parsedNode->elementValue=elementValue;
 				parsedNode->element=element;
 				
+				if(element=='d'||element=='D')
+				{
+					nonLinearData.nonLinear=1;
+					nonLinearData.count=nonLinearData.count+1;
+				}
+				
+				
 				parsedNode->link=tempAddress;
 				tempAddress=parsedNode;
 			    }
@@ -63,7 +70,9 @@ program: program branch '\n' {
 	 |
  	 ;
 
-branch:  ELEMENT INTEGER INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4; elementValue=$5;};
+branch:  ELEMENT INTEGER INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4; elementValue=$5;}
+	 |ELEMENT INTEGER INTEGER INTEGER {element=$1; elementNumber=$2; node1=$3; node2=$4;elementValue=0;}
+	 ;
 
 dc: dc INTEGER INTEGER INTEGER ELEMENT INTEGER {startVal=$2;stopVal=$3;stepVal=$4; element=$5; elementNumber=$6;}	 
     |OP {runMode=$1;}
