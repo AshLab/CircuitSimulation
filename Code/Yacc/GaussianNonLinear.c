@@ -7,8 +7,8 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 
 {
 	float a[dim][dim+1],D,m,n,V1,V2;
-	float mJnl[dim][dim],**J, Inl[dim], Itot[dim];
-	float konst,gm,id,temp,Vt;
+	float mJnl[dim][dim],**J, Inl[dim], Itot[dim],sol_pre[dim];
+	float konst,gm,id,temp,Vt, convergenceValue=0.001;
 
 	//float sol[3];
 	int i,j,k,t,l,Iteration,itNo;
@@ -32,9 +32,10 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 	for(i=0;i<dim;i++)
 	{
 		sol[i]=1;
+		sol_pre[i]=0;
 	}
 
-	Iteration=10;	
+	Iteration=100;	
 
 	for(itNo=0;itNo<Iteration;itNo++)
 	{
@@ -204,19 +205,48 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 			
 		FindSolution(J,Itot,sol,dim);
 
+		temp=0;
+
+		for(i=0;i<dim;i++)
+		{
+	
+			temp=pow((sol_pre[i]-sol[i]),2)+temp;
+			printf("\n%f",sol[i]);
+			
+	
+		}
+
+		temp=pow(temp,0.5);
 		
+		printf("\n\n Convergence Value:%f\n\n", temp);
+
+		if(temp<convergenceValue)
+		{
+			printf("\n\n Solution Converged at %dth iteration\n\n",itNo);
+			break;
+		}
+
+				
+
 		printf("\n\n\n--------------------SOLUTION ---------------------");
 
 		for(i=0;i<dim;i++)
 		{
 	
-			
+			sol_pre[i]=sol[i];
 			printf("\n%f",sol[i]);
 			
 	
 		}	
 
+		
+
 	
+	}
+
+	if(itNo>=Iteration)
+	{
+			printf("\n\n\nSOLUTION FAILED TO CONVERGE\n\n\n");
 	}
 		
 }
