@@ -3,10 +3,11 @@ R1 1 2 1
 D2 2 0
 R2 2 3 1
 R3 3 4 1
-D2 3 0
+D2 3 6
 
 %Measure Currents
 V2 4 0 0
+V3 6 0 0
 
 %.dc 1 2 0.1 V1
 %.plot 2

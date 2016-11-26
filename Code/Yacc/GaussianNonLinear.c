@@ -6,7 +6,7 @@
 void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlIndex, int nlCount)
 
 {
-	float a[dim][dim+1],D,m,n;
+	float a[dim][dim+1],D,m,n,V1,V2;
 	float mJnl[dim][dim],**J, Inl[dim], Itot[dim];
 	float konst,gm,id,temp,Vt;
 
@@ -61,29 +61,60 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 		//Filling up Negative Jacobian Matrix and Non Linear Current
 		for(i=0;i<nlCount;i++)
 		{
+			
+			V1=0;
+			V2=0;
+		
 			t=nlIndex[i][0];
 			l=nlIndex[i][1];
-
-			gm=(konst/(Vt))*(expf((sol[t]-sol[l])/(Vt)));
 		
-			mJnl[t][t]=gm+mJnl[t][t];
-			J[t][t]=x[t][t]+mJnl[t][t];
+			if(t!=-1)
+			{
+				V1=sol[t];
+			}
 
-			mJnl[l][l]=gm+mJnl[l][l];
-			J[l][l]=x[l][l]+mJnl[l][l];
+			if(l!=-1)
+			{
+				V2=sol[l];
+			}
+					
+
+			gm=(konst/(Vt))*(expf((V1-V2)/(Vt)));
+			id=konst*((expf((V1-V2)/(Vt)))-1);
 		
-			mJnl[t][l]=-gm+mJnl[t][l];
-			J[t][l]=x[t][l]+mJnl[t][l];
+			if(t!=-1)
+			{			
+				mJnl[t][t]=gm+mJnl[t][t];
+				J[t][t]=x[t][t]+mJnl[t][t];
+			
+				Inl[t]=-id+Inl[t];
+				Itot[t]=y[t]+Inl[t];
 
-			mJnl[l][t]=-gm+mJnl[l][t];
-			J[l][t]=x[l][t]+mJnl[l][t];
+			}
 
-			id=konst*((expf((sol[t]-sol[l])/(Vt)))-1);
-			Inl[t]=-id+Inl[t];
-			Itot[t]=y[t]+Inl[t];
+			if(l!=-1)
+			{
 
-			Inl[l]=id+Inl[l];
-			Itot[l]=y[l]+Inl[l];
+				mJnl[l][l]=gm+mJnl[l][l];
+				J[l][l]=x[l][l]+mJnl[l][l];
+
+				Inl[l]=id+Inl[l];
+				Itot[l]=y[l]+Inl[l];
+			}
+
+			if(t!=-1&&l!=-1)
+			{
+		
+				mJnl[t][l]=-gm+mJnl[t][l];
+				J[t][l]=x[t][l]+mJnl[t][l];
+
+				mJnl[l][t]=-gm+mJnl[l][t];
+				J[l][t]=x[l][t]+mJnl[l][t];
+			}
+
+			
+			
+			
 		}
 
 	

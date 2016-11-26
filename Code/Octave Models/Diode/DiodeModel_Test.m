@@ -9,7 +9,7 @@ G=[1E-3 0 ;0 1E-3];
 G=G.*1E3;
 
 
-index=[0 0 -1]
+index=[0 0 -1];
 
 initialVal=[1 1]';
 
@@ -20,7 +20,7 @@ Jnl=zeros(2,2);
 J=zeros(2,2);
 Voltage=initialVal;
 
-for i=1:2
+for i=1:10
 
 konst=1*10^-6;
 

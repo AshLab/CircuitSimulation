@@ -11,8 +11,9 @@ struct plotNode *plotInfo=NULL;
 struct runMode mode;
 struct nonLinear nonLinearData;
 
+
 int plotCount=0;
-int nonLinear=0;
+
 
 int SearchNodes(int);
 int SearchVoltageSource(int);
@@ -31,6 +32,7 @@ void main(void)
 	void FindSolution(float**,float*,float*,int);
 	void FindSolutionDC(float**, float*, float*, int, int);
 	void FindSolutionNonLinear(float**, float*, float*, int, int**, int);
+	void FindSolutionNonLinearDC(float**, float*, float*, int, int**, int,int);
 	
 
 	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult;
@@ -43,6 +45,7 @@ void main(void)
 	
 	
 	
+	nonLinearData.nonLinear=0;
 
 	parseResult=YaccParse("cir.txt");
 	
@@ -379,10 +382,19 @@ void main(void)
 
 	if(mode.modeType=='d')
 	{
-
+		
 		parseResult=SearchVoltageSource(mode.elementNumber)+totalNodes;
 		printf("\n\nparse Result : %d\n\n",parseResult);
-		FindSolutionDC(nodalMatrix,nodalValues,solution,nodalElements,parseResult);
+
+		if(nonLinearData.nonLinear==0)
+		{
+			FindSolutionDC(nodalMatrix,nodalValues,solution,nodalElements,parseResult);
+		}
+
+		else
+		{
+			FindSolutionNonLinearDC(nodalMatrix,nodalValues,solution,nodalElements,nonLinearIndex,nonLinearData.count, parseResult);
+		}
 	}
 
 	free(cNode);
