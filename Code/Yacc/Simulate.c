@@ -29,13 +29,13 @@ void main(void)
 	int YaccParse(char*);
 	int ExCurrentNode();
 	int ExVoltageNode();
-	void FindSolution(float**,float*,float*,int);
+	int FindSolution(float**,float*,float*,int);
 	void FindSolutionDC(float**, float*, float*, int, int);
-	void FindSolutionNonLinear(float**, float*, float*, int, int**, int);
+	int FindSolutionNonLinear(float**, float*, float*, int, int**, int);
 	void FindSolutionNonLinearDC(float**, float*, float*, int, int**, int,int);
 	
 
-	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult;
+	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult, exist;
 	float G=0;
 	float **nodalMatrix; 
 	float *nodalValues, *solution; 
@@ -346,13 +346,13 @@ void main(void)
 	{	
 		if(nonLinearData.nonLinear==0)
 		{		
-			FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
+			exist=FindSolution(nodalMatrix,nodalValues,solution,nodalElements);
 		}
 
 		else
 		{
 		
-			FindSolutionNonLinear(nodalMatrix,nodalValues,solution,nodalElements,nonLinearIndex,nonLinearData.count);
+			exist=FindSolutionNonLinear(nodalMatrix,nodalValues,solution,nodalElements,nonLinearIndex,nonLinearData.count);
 		}
 
 	
@@ -360,21 +360,31 @@ void main(void)
 		tempcurNode=cNode;
 	
 		printf("\n\n----------------SIMULATION RESULTS--------------------------------------------------");
-		for(i=0;i<nodalElements;i++)
+		
+		if(exist==0)
 		{
-			if(i<totalNodes)
-			{		
-				printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
-				tempvoltageNode=tempvoltageNode->link;
-			}
+			printf("\n\n\nNO SOLUTION \n\n\n");
+		}
 
-			else
+		else
+		{
+		
+			for(i=0;i<nodalElements;i++)
 			{
-				printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
-				tempcurNode=tempcurNode->link;
-			}
+				if(i<totalNodes)
+				{		
+					printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
+					tempvoltageNode=tempvoltageNode->link;
+				}
+
+				else
+				{
+					printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
+					tempcurNode=tempcurNode->link;
+				}
 		
 					
+			}
 		}
 
 		printf("\n\n----------------SIMULATION RESULTS--------------------------------------------------");

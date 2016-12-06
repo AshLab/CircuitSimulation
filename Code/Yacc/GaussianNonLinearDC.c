@@ -10,10 +10,10 @@ void FindSolutionNonLinearDC(float **x, float *y, float *sol, int dim, int **nlI
 	float val;
 	double *plotX, *plotY;
 	//float sol[3];
-	int i,j,k,t,l,pointCount=0;
+	int i,j,k,t,l,pointCount=0, exist;
 	char title[]="DC Sweep",label1[5],label[5];
 	
-	void FindSolutionNonLinear(float**, float*, float*, int, int**, int);
+	int FindSolutionNonLinear(float**, float*, float*, int, int**, int);
 	
 	
 	gnuplot_ctrl *h1;
@@ -32,7 +32,14 @@ void FindSolutionNonLinearDC(float **x, float *y, float *sol, int dim, int **nlI
 		
 		y[vPointer]=val;
 	
-		FindSolutionNonLinear(x,y,sol,dim,nlIndex,nlCount);
+		exist=FindSolutionNonLinear(x,y,sol,dim,nlIndex,nlCount);
+			
+		if(exist==0)
+		{
+			printf("\n\n\n NO SOLUTION \n\n\n");
+			return;
+		}
+			
 		printf("\n\n\n");
 		
 			

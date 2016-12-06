@@ -10,7 +10,7 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 	float a[dim][dim+3],D,m,n,temp,val;
 	double *plotX, *plotY;
 	//float sol[3];
-	int i,j,k,t,l,pointCount=0;
+	int i,j,k,t,l,pointCount=0,z;
 	char title[]="Test",label1[5],label[5];
 	
 	gnuplot_ctrl *h1;
@@ -57,9 +57,9 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 		for(j=i+1;j<dim;j++)
 		{
 			
-			m=a[j][i];
+			
 			n=a[i][i];
-			while(n== 0.0)
+			for(z=i;z<dim && n==0.0;z++)
 				{
 					n=a[i+1][i];
 	
@@ -73,6 +73,14 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 					}
 				}
 
+			if(n==0.0)
+			{
+				printf("\n\n\n NO SOLUTION \n\n\n");
+				return;
+			}
+		
+			
+			 m=a[j][i];
 			//if(n== 0.0)
 			//n=a[i+1][i]
 			//a[i][i]=1.0;
@@ -97,6 +105,14 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 			}
 		}
 	}
+
+	
+	if(a[dim-1][dim-1]==0.0)
+	{
+		printf("\n\n\n NO SOLUTION \n\n\n");
+		return;
+	}
+
 
 	printf("\n\n------------------------GAUSSIAN MATRIX--------------------\n\n");
 	for(i=0;i<dim;i++)

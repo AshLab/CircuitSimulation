@@ -1,11 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-void FindSolution(float **x, float *y, float *sol, int dim)
+int FindSolution(float **x, float *y, float *sol, int dim)
 {
 	float a[dim][dim+1],D,m,n;
 	//float sol[3];
-	int i,j,k,t,l;
+	int i,j,k,t,l,z;
 	
 	for(i=0;i<dim;i++)
 	{
@@ -33,25 +33,34 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 		for(j=i+1;j<dim;j++)
 		{
 			
-			m=a[j][i];
+			
 			n=a[i][i];
-			while(n== 0.0)
-				{
-					n=a[i+1][i];
-					for(k=i;k<dim+1;k++)
-					{
 
-					a[j][k]=(a[i][k])+(a[j][k]);
-					a[i][k]=(a[j][k])-(a[i][k]);
-					//printf("\n%d", a[j][k]);
-					//getchar();
-				
-					}
+			for(z=i;z<dim && n==0.0;z++)
+			{
+				n=a[i+1][i];
+				for(k=i;k<dim+1;k++)
+				{
+
+				a[j][k]=(a[i][k])+(a[j][k]);
+				a[i][k]=(a[j][k])-(a[i][k]);
+				//printf("\n%d", a[j][k]);
+				//getchar();
+			
 				}
+			}
 
 			//if(n== 0.0)
 			//n=a[i+1][i]
 			//a[i][i]=1.0;
+
+			if(n==0.0)
+			{
+				return 0;
+			}
+		
+
+			m=a[j][i];
 			if(m!= 0.0)
 			{
 				for(k=i;k<dim+1;k++)
@@ -65,6 +74,15 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 			}
 		}
 	}
+
+
+	if(a[dim-1][dim-1]==0.0)
+	{
+
+		return 0;
+	}
+
+
 	printf("\n\n------------------------GAUSSIAN MATRIX--------------------\n\n");
 
 	for(i=0;i<dim;i++)
@@ -105,6 +123,7 @@ void FindSolution(float **x, float *y, float *sol, int dim)
 		printf("\n%f",sol[i]);
 	}*/
 
+	return 1;
 	
 }
 	

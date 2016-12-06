@@ -3,7 +3,7 @@
 #include<math.h>
 
 
-void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlIndex, int nlCount)
+int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlIndex, int nlCount)
 
 {
 	float a[dim][dim+1],D,m,n,V1,V2;
@@ -11,10 +11,10 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 	float konst,gm,id,temp,Vt, convergenceValue=0.001;
 
 	//float sol[3];
-	int i,j,k,t,l,Iteration,itNo;
+	int i,j,k,t,l,Iteration,itNo, exist;
 
 
-	void FindSolution(float**,float*,float*,int);
+	int FindSolution(float**,float*,float*,int);
 
 	Vt=2*25.3*pow(10,-3);
 	konst=pow(10,-6);
@@ -203,7 +203,12 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 		}	
 
 			
-		FindSolution(J,Itot,sol,dim);
+		exist=FindSolution(J,Itot,sol,dim);
+	
+		if(exist==0)
+		{
+			return 0;
+		}
 
 		temp=0;
 
@@ -248,6 +253,8 @@ void FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInd
 	{
 			printf("\n\n\nSOLUTION FAILED TO CONVERGE\n\n\n");
 	}
+
+	return 1;
 		
 }
 	
