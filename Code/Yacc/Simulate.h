@@ -1,7 +1,7 @@
 struct elementData 
 {
 	int node1, node2, elementNumber;
-        float elementValue;
+        double elementValue;
 	char element;
 	struct elementData *link;
 };
@@ -28,7 +28,7 @@ extern struct currentNode *cNode;
 struct runMode
 {
 	char modeType,element;
-	float startValue, stopValue, stepValue;
+	double startValue, stopValue, stepValue;
 	int elementNumber;
 };
 

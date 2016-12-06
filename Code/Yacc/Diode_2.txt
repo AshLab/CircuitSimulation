@@ -9,12 +9,7 @@ D2 4 6
 %Measure Currents
 V3 5 0 0
 V4 6 0 0
-.dc 1 10 0.1 V1
-.plot 2
-%.op
-
-
-
-
-
+%.dc 1 10 0.1 V1
+%.plot 2
+.op
 

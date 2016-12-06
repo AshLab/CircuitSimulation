@@ -5,22 +5,22 @@
 #include"Simulate.h"
 #include"gnuplot_i.h"
 
-void FindSolutionNonLinearDC(float **x, float *y, float *sol, int dim, int **nlIndex, int nlCount,int vPointer)
+void FindSolutionNonLinearDC(double **x, double *y, double *sol, int dim, int **nlIndex, int nlCount,int vPointer)
 {
-	float val;
+	double val;
 	double *plotX, *plotY;
-	//float sol[3];
+	//double sol[3];
 	int i,j,k,t,l,pointCount=0, exist;
 	char title[]="DC Sweep",label1[5],label[5];
 	
-	int FindSolutionNonLinear(float**, float*, float*, int, int**, int);
+	int FindSolutionNonLinear(double**, double*, double*, int, int**, int);
 	
 	
 	gnuplot_ctrl *h1;
 	
 	
 
-	pointCount=((float)mode.stopValue-mode.startValue)/((float)mode.stepValue);
+	pointCount=((double)mode.stopValue-mode.startValue)/((double)mode.stepValue);
 	printf("Point Count :%d\n\n", pointCount);
 	plotX=(double*)malloc(pointCount*sizeof(double));
 	plotY=(double*)malloc(pointCount*sizeof(double));
@@ -46,7 +46,7 @@ void FindSolutionNonLinearDC(float **x, float *y, float *sol, int dim, int **nlI
 			
 				plotY[k]=sol[plotInfo->colNo];
 						
-			//printf("Sol \n: %f",sol[i]);
+			//printf("Sol \n: %lf",sol[i]);
 			//getchar();
 		
 
@@ -55,7 +55,7 @@ void FindSolutionNonLinearDC(float **x, float *y, float *sol, int dim, int **nlI
 		plotX[k]=val;
 
 
-		printf("\nX: %f \t Y: %f\n", plotX[k],plotY[k]);
+		printf("\nX: %lf \t Y: %lf\n", plotX[k],plotY[k]);
 
 		
 	}

@@ -3,27 +3,27 @@
 #include<math.h>
 
 
-int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlIndex, int nlCount)
+int FindSolutionNonLinear(double **x, double *y, double *sol, int dim, int **nlIndex, int nlCount)
 
 {
-	float a[dim][dim+1],D,m,n,V1,V2;
-	float mJnl[dim][dim],**J, Inl[dim], Itot[dim],sol_pre[dim];
-	float konst,gm,id,temp,Vt, convergenceValue=0.001;
+	double a[dim][dim+1],D,m,n,V1,V2;
+	double mJnl[dim][dim],**J, Inl[dim], Itot[dim],sol_pre[dim];
+	double konst,gm,id,temp,Vt, convergenceValue=0.001;
 
-	//float sol[3];
+	//double sol[3];
 	int i,j,k,t,l,Iteration,itNo, exist;
 
 
-	int FindSolution(float**,float*,float*,int);
+	int FindSolution(double**,double*,double*,int);
 
 	Vt=2*25.3*pow(10,-3);
 	konst=pow(10,-6);
 
-	J= (float **) malloc(dim*sizeof(float*));
+	J= (double **) malloc(dim*sizeof(double*));
 	
 	for(i=0;i<dim;i++)
 	{
-		J[i]=(float *) malloc(dim*sizeof(float));	
+		J[i]=(double *) malloc(dim*sizeof(double));	
 	}
 
 
@@ -127,7 +127,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		
 			for(j=0;j<dim;j++)
 			{
-				printf("\t%f",J[i][j]);
+				printf("\t%lf",J[i][j]);
 			}
 		
 			printf("\n");
@@ -143,7 +143,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		
 			for(j=0;j<dim;j++)
 			{
-				printf("\t%f",mJnl[i][j]);
+				printf("\t%lf",mJnl[i][j]);
 			}
 		
 			printf("\n");
@@ -157,7 +157,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		{
 	
 			
-			printf("\n%f",Inl[i]);
+			printf("\n%lf",Inl[i]);
 			
 	
 		}			
@@ -169,7 +169,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		{
 	
 			
-			printf("\n%f",Itot[i]);
+			printf("\n%lf",Itot[i]);
 			
 	
 		}	
@@ -197,7 +197,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		{
 	
 			
-			printf("\n%f",Itot[i]);
+			printf("\n%lf",Itot[i]);
 			
 	
 		}	
@@ -216,14 +216,14 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		{
 	
 			temp=pow((sol_pre[i]-sol[i]),2)+temp;
-			printf("\n%f",sol[i]);
+			printf("\n%lf",sol[i]);
 			
 	
 		}
 
 		temp=pow(temp,0.5);
 		
-		printf("\n\n Convergence Value:%f\n\n", temp);
+		printf("\n\n Convergence Value:%lf\n\n", temp);
 
 		if(temp<convergenceValue)
 		{
@@ -239,7 +239,7 @@ int FindSolutionNonLinear(float **x, float *y, float *sol, int dim, int **nlInde
 		{
 	
 			sol_pre[i]=sol[i];
-			printf("\n%f",sol[i]);
+			printf("\n%lf",sol[i]);
 			
 	
 		}	

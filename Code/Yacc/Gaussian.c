@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int FindSolution(float **x, float *y, float *sol, int dim)
+int FindSolution(double **x, double *y, double *sol, int dim)
 {
-	float a[dim][dim+1],D,m,n;
-	//float sol[3];
+	double a[dim][dim+1],D,m,n;
+	//double sol[3];
 	int i,j,k,t,l,z;
 	
 	for(i=0;i<dim;i++)
@@ -89,7 +89,7 @@ int FindSolution(float **x, float *y, float *sol, int dim)
 	{
 		for(j=0;j<dim+1;j++)
 		{
-			printf("%f\t",a[i][j]);
+			printf("%lf\t",a[i][j]);
 
 		}
 
@@ -108,10 +108,10 @@ int FindSolution(float **x, float *y, float *sol, int dim)
 			D=D+(a[i][j]*sol[j]);
 		}
 		
-		//printf("\nD : %f",D);
-		//printf("Sol \n: %f\n\n",a[i][j]);
+		//printf("\nD : %lf",D);
+		//printf("Sol \n: %lf\n\n",a[i][j]);
 		sol[i]=(a[i][t]-D)/(a[i][j]);
-		//printf("Sol \n: %f",sol[i]);
+		//printf("Sol \n: %lf",sol[i]);
 		//getchar();
 	}
 
@@ -120,7 +120,7 @@ int FindSolution(float **x, float *y, float *sol, int dim)
 	/*for(i=0;i<dim;i++)
 	{
 		
-		printf("\n%f",sol[i]);
+		printf("\n%lf",sol[i]);
 	}*/
 
 	return 1;

@@ -1,6 +1,6 @@
 %union
 {
-	float fVal;
+	double fVal;
 	char elem;
 };
 
@@ -18,10 +18,10 @@
 	int YaccParse(char *);
 
 	int node1, node2, elementNumber;
-        float elementValue;
+        double elementValue;
 	char element;
 	char runMode;
-	float startVal, stopVal, stepVal;
+	double startVal, stopVal, stepVal;
 
 	struct elementData *tempAddress=NULL;
 	struct plotNode *tempplotAdd=NULL;

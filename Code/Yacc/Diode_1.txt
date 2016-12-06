@@ -1,0 +1,7 @@
+V1 1 0 1
+D1 1 2 
+R1 2 3 1000
+V2 3 0 0.2
+.op
+
+%Solution will not Converge, but gives identical value

@@ -5,11 +5,11 @@
 #include"Simulate.h"
 #include"gnuplot_i.h"
 
-void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
+void FindSolutionDC(double **x, double *y, double *sol, int dim, int vPointer)
 {
-	float a[dim][dim+3],D,m,n,temp,val;
+	double a[dim][dim+3],D,m,n,temp,val;
 	double *plotX, *plotY;
-	//float sol[3];
+	//double sol[3];
 	int i,j,k,t,l,pointCount=0,z;
 	char title[]="Test",label1[5],label[5];
 	
@@ -119,7 +119,7 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 	{
 		for(j=0;j<dim+3;j++)
 		{
-			printf("%f\t",a[i][j]);
+			printf("%lf\t",a[i][j]);
 
 		}
 
@@ -127,7 +127,7 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 	}
 	printf("\n\n------------------------GAUSSIAN MATRIX--------------------");
 
-	pointCount=((float)mode.stopValue-mode.startValue)/((float)mode.stepValue);
+	pointCount=((double)mode.stopValue-mode.startValue)/((double)mode.stepValue);
 	printf("Point COunt :%d\n\n", pointCount);
 	plotX=(double*)malloc(pointCount*sizeof(double));
 	plotY=(double*)malloc(pointCount*sizeof(double));
@@ -148,8 +148,8 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 				D=D+(a[i][j]*sol[j]);
 			}
 		
-			//printf("\nD : %f",D);
-			//printf("Sol \n: %f\n\n",a[i][j]);
+			//printf("\nD : %lf",D);
+			//printf("Sol \n: %lf\n\n",a[i][j]);
 
 			a[i][t]=(a[i][t+1])+(val*a[i][t+2]);
 	
@@ -160,7 +160,7 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 				plotY[k]=sol[i];
 			}
 			
-			//printf("Sol \n: %f",sol[i]);
+			//printf("Sol \n: %lf",sol[i]);
 			//getchar();
 		}
 
@@ -171,10 +171,10 @@ void FindSolutionDC(float **x, float *y, float *sol, int dim, int vPointer)
 		for(i=0;i<dim;i++)
 		{
 		
-			printf("\n%f",sol[i]);
+			printf("\n%lf",sol[i]);
 		}
 
-		printf("\nX: %f \t Y: %f\n", plotX[k],plotY[k]);
+		printf("\nX: %lf \t Y: %lf\n", plotX[k],plotY[k]);
 
 		
 	}

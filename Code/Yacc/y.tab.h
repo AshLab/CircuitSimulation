@@ -64,7 +64,7 @@ union YYSTYPE
 {
 #line 2 "YaccSPICE.y" /* yacc.c:1909  */
 
-	float fVal;
+	double fVal;
 	char elem;
 
 #line 71 "y.tab.h" /* yacc.c:1909  */

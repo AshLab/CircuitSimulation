@@ -29,16 +29,16 @@ void main(void)
 	int YaccParse(char*);
 	int ExCurrentNode();
 	int ExVoltageNode();
-	int FindSolution(float**,float*,float*,int);
-	void FindSolutionDC(float**, float*, float*, int, int);
-	int FindSolutionNonLinear(float**, float*, float*, int, int**, int);
-	void FindSolutionNonLinearDC(float**, float*, float*, int, int**, int,int);
+	int FindSolution(double**,double*,double*,int);
+	void FindSolutionDC(double**, double*, double*, int, int);
+	int FindSolutionNonLinear(double**, double*, double*, int, int**, int);
+	void FindSolutionNonLinearDC(double**, double*, double*, int, int**, int,int);
 	
 
 	int totalNodes,totalVoltageSource,nodalElements,i=0,j=0,k=0,parseResult, exist;
-	float G=0;
-	float **nodalMatrix; 
-	float *nodalValues, *solution; 
+	double G=0;
+	double **nodalMatrix; 
+	double *nodalValues, *solution; 
 	int *nodalVariables;
 	int **nonLinearIndex;
 	int nonLinearCount=0;
@@ -52,11 +52,11 @@ void main(void)
 		
 	tempNode=parsedNode;
 	printf("\n\n----------------PARSED DATA--------------------------------------------------");
-	printf("\n%c %f %f %f %c %d\n\n\n",mode.modeType,mode.startValue,mode.stopValue,mode.stepValue,mode.element,mode.elementNumber);
+	printf("\n%c %lf %lf %lf %c %d\n\n\n",mode.modeType,mode.startValue,mode.stopValue,mode.stepValue,mode.element,mode.elementNumber);
 	
 	while(tempNode!=NULL)
 	{
-	printf("\n%d %d %d %f %c\n", tempNode->node1,tempNode->node2,tempNode->elementNumber,tempNode->elementValue,tempNode->element);
+	printf("\n%d %d %d %lf %c\n", tempNode->node1,tempNode->node2,tempNode->elementNumber,tempNode->elementValue,tempNode->element);
 
 		tempNode=tempNode->link;
 	}
@@ -107,15 +107,15 @@ void main(void)
 
 	//system(sleep(1));
 
-	nodalMatrix= (float **) malloc(nodalElements*sizeof(float*));
+	nodalMatrix= (double **) malloc(nodalElements*sizeof(double*));
 	
 	for(i=0;i<nodalElements;i++)
 	{
-		nodalMatrix[i]=(float *) malloc(nodalElements*sizeof(float));	
+		nodalMatrix[i]=(double *) malloc(nodalElements*sizeof(double));	
 	}
 
-	nodalValues=(float *) malloc(nodalElements*sizeof(float));
-	solution=(float *) malloc(nodalElements*sizeof(float));
+	nodalValues=(double *) malloc(nodalElements*sizeof(double));
+	solution=(double *) malloc(nodalElements*sizeof(double));
 
 	
 
@@ -142,7 +142,7 @@ void main(void)
 				i=SearchNodes(tempNode->node1);
 				j=SearchNodes(tempNode->node2);
 			
-				G=(float)1/tempNode->elementValue;
+				G=(double)1/tempNode->elementValue;
 			
 				if(i!=-1)
 				{
@@ -183,7 +183,7 @@ void main(void)
 					nodalMatrix[k][j]=-1;
 				}
 
-				nodalValues[k]=(float)tempNode->elementValue;
+				nodalValues[k]=(double)tempNode->elementValue;
 			}
 
 			if(tempNode->element=='I')
@@ -193,13 +193,13 @@ void main(void)
 			
 				if(i!=-1)
 				{
-					nodalValues[i]=	(float)tempNode->elementValue;
+					nodalValues[i]=	(double)tempNode->elementValue;
 				}
 
 			
 				if(j!=-1)
 				{
-					nodalValues[j]=	-(float)tempNode->elementValue;
+					nodalValues[j]=	-(double)tempNode->elementValue;
 				}	
 
 			}
@@ -226,7 +226,7 @@ void main(void)
 				i=SearchNodes(tempNode->node1);
 				j=SearchNodes(tempNode->node2);
 			
-				G=(float)1/tempNode->elementValue;
+				G=(double)1/tempNode->elementValue;
 			
 				if(i!=-1)
 				{
@@ -267,7 +267,7 @@ void main(void)
 					nodalMatrix[k][j]=-1;
 				}
 
-				nodalValues[k]=(float)tempNode->elementValue;
+				nodalValues[k]=(double)tempNode->elementValue;
 			}
 
 			if(tempNode->element=='I')
@@ -277,13 +277,13 @@ void main(void)
 			
 				if(i!=-1)
 				{
-					nodalValues[i]=	(float)tempNode->elementValue;
+					nodalValues[i]=	(double)tempNode->elementValue;
 				}
 
 			
 				if(j!=-1)
 				{
-					nodalValues[j]=	-(float)tempNode->elementValue;
+					nodalValues[j]=	-(double)tempNode->elementValue;
 				}	
 
 			}
@@ -293,7 +293,7 @@ void main(void)
 				i=SearchNodes(tempNode->node1);
 				j=SearchNodes(tempNode->node2);
 			
-				//G=(float)1/tempNode->elementValue;
+				//G=(double)1/tempNode->elementValue;
 			
 					nonLinearIndex[nonLinearCount][0]=i;
 					nonLinearIndex[nonLinearCount][1]=j;
@@ -333,9 +333,9 @@ void main(void)
 
 		for(j=0;j<nodalElements;j++)
 		{
-			printf("%f\t",nodalMatrix[i][j]);
+			printf("%lf\t",nodalMatrix[i][j]);
 		}
-		printf("%f\t",nodalValues[i]);
+		printf("%lf\t",nodalValues[i]);
 	}
 	printf("\n\n----------------NODAL MATRIX--------------------------------------------------");
 
@@ -373,13 +373,13 @@ void main(void)
 			{
 				if(i<totalNodes)
 				{		
-					printf("\nV(%d): %fV\n",tempvoltageNode->nodeNo, solution[i]);
+					printf("\nV(%d): %lfV\n",tempvoltageNode->nodeNo, solution[i]);
 					tempvoltageNode=tempvoltageNode->link;
 				}
 
 				else
 				{
-					printf("\n\nI_%d: %fA\n",tempcurNode->elementName, solution[i]);
+					printf("\n\nI_%d: %lfA\n",tempcurNode->elementName, solution[i]);
 					tempcurNode=tempcurNode->link;
 				}
 		

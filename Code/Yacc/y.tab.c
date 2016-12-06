@@ -117,7 +117,7 @@ union YYSTYPE
 {
 #line 2 "YaccSPICE.y" /* yacc.c:355  */
 
-	float fVal;
+	double fVal;
 	char elem;
 
 #line 124 "y.tab.c" /* yacc.c:355  */
@@ -146,10 +146,10 @@ int yyparse (void);
 	int YaccParse(char *);
 
 	int node1, node2, elementNumber;
-        float elementValue;
+        double elementValue;
 	char element;
 	char runMode;
-	float startVal, stopVal, stepVal;
+	double startVal, stopVal, stepVal;
 
 	struct elementData *tempAddress=NULL;
 	struct plotNode *tempplotAdd=NULL;
