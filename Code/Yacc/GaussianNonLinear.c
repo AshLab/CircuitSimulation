@@ -207,6 +207,7 @@ int FindSolutionNonLinear(double **x, double *y, double *sol, int dim, int **nlI
 	
 		if(exist==0)
 		{
+			printf("\n\n\nFound very large current, you have burnt your diode\n\n");
 			return 0;
 		}
 

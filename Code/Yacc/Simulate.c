@@ -18,7 +18,7 @@ int plotCount=0;
 int SearchNodes(int);
 int SearchVoltageSource(int);
 
-void main(void)
+void main(int argc, char *argv[])
 {
 	struct elementData *tempNode;	
 	struct voltageNode *tempvoltageNode;
@@ -47,7 +47,7 @@ void main(void)
 	
 	nonLinearData.nonLinear=0;
 
-	parseResult=YaccParse("cir.txt");
+	parseResult=YaccParse(argv[1]);
 	
 		
 	tempNode=parsedNode;
